@@ -1,4 +1,6 @@
 from sympy import *
+import os 
+import FEM_Matrixmaker_corotational as R_GEN
 B = zeros(6,12)
 
 K = zeros(12,12)
@@ -73,6 +75,7 @@ print K
 print result
 '''
 print "start of local K"
+result = R_GEN.R_large*result*R_GEN.R_large.T
 sum = 0
 for i in range(0,12):
     for j in range(0,12):

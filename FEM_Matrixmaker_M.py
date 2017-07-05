@@ -89,7 +89,7 @@ b[1,0] = b2
 b[2,0] = b3
 
 
-result_f_ext = N.T*b *det_J
+result_f_ext = N.T*b *det_J /6
 
 
 for i in range(0,size_m):
