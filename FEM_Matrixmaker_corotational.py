@@ -1,5 +1,6 @@
 #We want to make symbolic expressions for the co-rotational matrix, 
 from sympy import *
+import re
 
 B2 = zeros(3, 6)
 D2 = zeros(3, 3)
@@ -86,21 +87,21 @@ xzero2 = zeros(1,3);
 xzero3 = zeros(1,3);
 xzero4 = zeros(1,3);
 
-xzero1x = symbols('xzero1x')
-xzero1y = symbols('xzero1y')
-xzero1z = symbols('xzero1z')
+xzero1x = symbols('n1.x')
+xzero1y = symbols('n1.y')
+xzero1z = symbols('n1.z')
 
-xzero2x = symbols('xzero2x')
-xzero2y = symbols('xzero2y')
-xzero2z = symbols('xzero2z')
+xzero2x = symbols('n2.x')
+xzero2y = symbols('n2.y')
+xzero2z = symbols('n2.z')
 
-xzero3x = symbols('xzero3x')
-xzero3y = symbols('xzero3y')
-xzero3z = symbols('xzero3z')
+xzero3x = symbols('n3.x')
+xzero3y = symbols('n3.y')
+xzero3z = symbols('n3.z')
 
-xzero4x = symbols('xzero4x')
-xzero4y = symbols('xzero4y')
-xzero4z = symbols('xzero4z')
+xzero4x = symbols('n4.x')
+xzero4y = symbols('n4.y')
+xzero4z = symbols('n4.z')
 
 xzero1[0] = xzero1x; xzero1[1] = xzero1y; xzero1[2] = xzero1z;
 xzero2[0] = xzero2x; xzero2[1] = xzero2y; xzero2[2] = xzero2z;
@@ -111,11 +112,15 @@ C = zeros(3,3);
 C = Matrix([(xzero2 - xzero1),(xzero3-xzero1),(xzero4-xzero1)]);
 #print B
 C = C.T
-
+print "C matrix \n",C
 
 #inverse C
-C_inv = C_sym.inv();
+C_inv = C.inv();
+
+
+#print C_inv
 A = B*C_inv
+print "A matrix \n ",A
 #Vectors of matrix A
 a0 = A_sym[:,0];
 a1 = A_sym[:,1];
@@ -130,7 +135,7 @@ r2 = r0.cross(r1)
 
 R = zeros(3,3)
 R = Matrix([r0.T,r1.T,r2.T])
-
+print R
 #Symbolic representation of R
 R_sym = zeros(3,3)
 R11 =symbols('R11')
@@ -152,6 +157,56 @@ R_large[9,9] = R_sym
 print R_large.rows, R_large.cols
 print R_large
 
+
+#Print C
+for i in range(0,3):
+    for j in range(0,3):
+        #string = "E_vector[" + "x" + "]" + "=" + str(result[i, j]) + ";"
+        string = "C" + "["+str(i) + "]" +"["+str(j) + "]"+ "=" + str(C_inv[i, j]) + ";"
+        # sum = sum+1
+        'print string'
+        'rint "if ((x == " +str(i)+")&&(y=="+str(j)+")){"+string+"} "'
+        startExist =True;
+        #print string 
+        while startExist == True:
+            #iteration= iteration+1
+            a = string.find("**")
+
+            if a != -1:
+                #print string[a:a+3]
+                power = string[a+2]
+                index_right_bracket = string[a-1];
+                #print index_right_bracket
+                counter = 0;
+                #find left bracket index
+                left_bracket_counter =1;
+
+                while left_bracket_counter != 0:
+                    if (string[a-counter-2] == ')'):
+                        left_bracket_counter = left_bracket_counter+1
+                    elif(string[a-counter-2]=='('):
+                        left_bracket_counter = left_bracket_counter-1
+                    counter = counter + 1
+             
+                counter=counter+1
+                index_left_bracket = string[a-counter]
+                #print index_left_bracket
+                expression = string[a-counter:a-1+1]
+                #print "power : " , power 
+                expressionsum=''
+                for p in range(0,int(power)-1):
+                    expressionsum = expressionsum+"*"+expression
+                string = string[:a] + expressionsum+string[a+3:] 
+                #print "expression," ,expressionsum
+                #string.replace("**",expressionsum)
+            else:
+                startExist= False;
+
+            
+
+        
+        #print "if ((x == " +str(sum)+")){"+string+"} "3
+        print string
 
 
 
