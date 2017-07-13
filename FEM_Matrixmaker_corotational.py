@@ -17,6 +17,20 @@ c31 = symbols('c31')
 c32 = symbols('c32')
 c33 = symbols('c33')
 
+C_sym=Matrix([[c11,c12,c13],[c21,c22,c23],[c31,c32,c33]])
+#Inverse of C
+Cinv_sym = zeros(3,3)
+c11 =symbols('c_inv11')
+c12 =symbols('c_inv12')
+c13 =symbols('c_inv13')
+c21 = symbols('c_inv21')
+c22 = symbols('c_inv22')
+c23 = symbols('c_inv23')
+c31 = symbols('c_inv31')
+c32 = symbols('c_inv32')
+c33 = symbols('c_inv33')
+
+Cinv_sym=Matrix([[c11,c12,c13],[c21,c22,c23],[c31,c32,c33]])
 #Symbolic representation of A
 A_sym = zeros(3,3)
 a11 =symbols('a11')
@@ -41,7 +55,6 @@ b31 = symbols('b31')
 b32 = symbols('b32')
 b33 = symbols('b33')
 
-C_sym=Matrix([[c11,c12,c13],[c21,c22,c23],[c31,c32,c33]])
 B_sym=Matrix([[b11,b12,b13],[b21,b22,b23],[b31,b32,b33]])
 
 A_sym=Matrix([[a11,a12,a13],[a21,a22,a23],[a31,a32,a33]])
@@ -53,33 +66,64 @@ k2 = zeros(1,3);
 k3 = zeros(1,3);
 k4 = zeros(1,3);
 
-#define symbols for each element
-k1x = symbols('k1x')
-k1y = symbols('k1y')
-k1z = symbols('k1z')
+#Note : K is original
+k1x = symbols('k1.x')
+k1y = symbols('k1.y')
+k1z = symbols('k1.z')
 
-k2x = symbols('k2x')
-k2y = symbols('k2y')
-k2z = symbols('k2z')
+k2x = symbols('k2.x')
+k2y = symbols('k2.y')
+k2z = symbols('k2.z')
 
-k3x = symbols('k3x')
-k3y = symbols('k3y')
-k3z = symbols('k3z')
+k3x = symbols('k3.x')
+k3y = symbols('k3.y')
+k3z = symbols('k3.z')
 
-k4x = symbols('k4x')
-k4y = symbols('k4y')
-k4z = symbols('k4z')
+k4x = symbols('k4.x')
+k4y = symbols('k4.y')
+k4z = symbols('k4.z')
+k_vector = Matrix([k1x,k1y,k1z,k2x,k2y,k2z,k3x,k3y,k3z,k4x,k4y,k4z])
+
+
+#Note : n is current
+n1 = zeros(1,3);
+n2 = zeros(1,3);
+n3 = zeros(1,3);
+n4 = zeros(1,3);
+
+n1x = symbols('n1.x')
+n1y = symbols('n1.y')
+n1z = symbols('n1.z')
+
+n2x = symbols('n2.x')
+n2y = symbols('n2.y')
+n2z = symbols('n2.z')
+
+n3x = symbols('n3.x')
+n3y = symbols('n3.y')
+n3z = symbols('n3.z')
+
+n4x = symbols('n4.x')
+n4y = symbols('n4.y')
+n4z = symbols('n4.z')
+n_vector = Matrix([n1x,n1y,n1z,n2x,n2y,n2z,n3x,n3y,n3z,n4x,n4y,n4z])
+print k_vector.rows
 
 k1[0] = k1x; k1[1] = k1y; k1[2] = k1z;
 k2[0] = k2x; k2[1] = k2y; k2[2] = k2z;
 k3[0] = k3x; k3[1] = k3y; k3[2] = k3z;
 k4[0] = k4x; k4[1] = k4y; k4[2] = k4z;
 
+n1[0] = n1x; n1[1] = n1y; n1[2] = n1z;
+n2[0] = n2x; n2[1] = n2y; n2[2] = n2z;
+n3[0] = n3x; n3[1] = n3y; n3[2] = n3z;
+n4[0] = n4x; n4[1] = n4y; n4[2] = n4z;
 #But k's inside of B
 B = zeros(3,3);
 
-B = Matrix([(k2 - k1),(k3-k1),(k4-k1)]);
+B = Matrix([(n2 - n1),(n3-n1),(n4-n1)]);
 B=B.T
+print "B matrix ", B
 
 #Now we make vector of the original position
 xzero1 = zeros(1,3);
@@ -87,21 +131,21 @@ xzero2 = zeros(1,3);
 xzero3 = zeros(1,3);
 xzero4 = zeros(1,3);
 
-xzero1x = symbols('n1.x')
-xzero1y = symbols('n1.y')
-xzero1z = symbols('n1.z')
+xzero1x = symbols('k1.x')
+xzero1y = symbols('k1.y')
+xzero1z = symbols('k1.z')
 
-xzero2x = symbols('n2.x')
-xzero2y = symbols('n2.y')
-xzero2z = symbols('n2.z')
+xzero2x = symbols('k2.x')
+xzero2y = symbols('k2.y')
+xzero2z = symbols('k2.z')
 
-xzero3x = symbols('n3.x')
-xzero3y = symbols('n3.y')
-xzero3z = symbols('n3.z')
+xzero3x = symbols('k3.x')
+xzero3y = symbols('k3.y')
+xzero3z = symbols('k3.z')
 
-xzero4x = symbols('n4.x')
-xzero4y = symbols('n4.y')
-xzero4z = symbols('n4.z')
+xzero4x = symbols('k4.x')
+xzero4y = symbols('k4.y')
+xzero4z = symbols('k4.z')
 
 xzero1[0] = xzero1x; xzero1[1] = xzero1y; xzero1[2] = xzero1z;
 xzero2[0] = xzero2x; xzero2[1] = xzero2y; xzero2[2] = xzero2z;
@@ -115,7 +159,8 @@ C = C.T
 print "C matrix \n",C
 
 #inverse C
-C_inv = C.inv();
+C_inv = simplify(C_sym.inv());
+#C_inv = C.inv();
 
 
 #print C_inv
@@ -126,14 +171,19 @@ a0 = A_sym[:,0];
 a1 = A_sym[:,1];
 a2 = A_sym[:,2];
 
+
 #Gram-Schmit vectors
 r0 = a0.normalized()
 
-proj = Matrix([[r0.dot(a1)],[r0.dot(a1)],[r0.dot(a1)]])
-r1= (a1-proj).normalized()
-r2 = r0.cross(r1)
+projr0a1 = r0.dot(a1)#Matrix([[r0.dot(a1)],[r0.dot(a1)],[r0.dot(a1)]]) #
 
+r1= (a1-projr0a1*r0).normalized()
+projr1a2 = Matrix([[r1.dot(a2)],[r1.dot(a2)],[r1.dot(a2)]])
+projr0a2 =Matrix([[r0.dot(a2)],[r0.dot(a2)],[r0.dot(a2)]])
+r2 = (a2-projr0a2-projr1a2).normalized()
+r2 = r0.cross(r1)
 R = zeros(3,3)
+
 R = Matrix([r0.T,r1.T,r2.T])
 print R
 #Symbolic representation of R
@@ -157,12 +207,122 @@ R_large[9,9] = R_sym
 print R_large.rows, R_large.cols
 print R_large
 
+#print C
 
-#Print C
+#Print C inv
 for i in range(0,3):
     for j in range(0,3):
         #string = "E_vector[" + "x" + "]" + "=" + str(result[i, j]) + ";"
-        string = "C" + "["+str(i) + "]" +"["+str(j) + "]"+ "=" + str(C_inv[i, j]) + ";"
+        string = "float c" +str(i+1) +str(j+1)+"=" + str(C[i, j]) + ";"
+
+        # sum = sum+1
+        'print string'
+        'rint "if ((x == " +str(i)+")&&(y=="+str(j)+")){"+string+"} "'
+        startExist =True;
+        #print string 
+        while startExist == True:
+            #iteration= iteration+1
+            a = string.find("**")
+
+            if a != -1:
+                #print string[a:a+3]
+                power = string[a+2]
+                index_right_bracket = string[a-1];
+                #print index_right_bracket
+                counter = 0;
+                #find left bracket index
+                left_bracket_counter =1;
+
+                while left_bracket_counter != 0:
+                    if (string[a-counter-2] == ')'):
+                        left_bracket_counter = left_bracket_counter+1
+                    elif(string[a-counter-2]=='('):
+                        left_bracket_counter = left_bracket_counter-1
+                    counter = counter + 1
+                
+                if (string[a-1] == ')'):
+                    counter = counter + 1
+                index_left_bracket = string[a-counter]
+                #print index_left_bracket
+                expression = string[a-counter:a-1+1]
+                #print "power : " , power 
+                expressionsum=''
+                for p in range(0,int(power)-1):
+                    expressionsum = expressionsum+"*"+expression
+                string = string[:a] + expressionsum+string[a+3:] 
+                #print "expression," ,expressionsum
+                #string.replace("**",expressionsum)
+            else:
+                startExist= False;
+
+            
+
+        
+        #print "if ((x == " +str(sum)+")){"+string+"} "3
+        print string
+        #print "printf(\"" +"c" +str(i+1) +str(j+1)+"%f \\n \",c"+str(i+1) +str(j+1)+");" 
+
+
+#Print C inv
+for i in range(0,3):
+    for j in range(0,3):
+        #string = "E_vector[" + "x" + "]" + "=" + str(result[i, j]) + ";"
+        string = "float c_inv" +str(i+1) +str(j+1)+"=" + str(C_inv[i, j]) + ";"
+        # sum = sum+1
+        'print string'
+        'rint "if ((x == " +str(i)+")&&(y=="+str(j)+")){"+string+"} "'
+        startExist =True;
+        #print string 
+        while startExist == True:
+            #iteration= iteration+1
+            a = string.find("**")
+
+            if a != -1:
+                #print string[a:a+3]
+                power = string[a+2]
+                index_right_bracket = string[a-1];
+                #print index_right_bracket
+                counter = 0;
+                #find left bracket index
+                left_bracket_counter =1;
+
+                while left_bracket_counter != 0:
+                    if (string[a-counter-2] == ')'):
+                        left_bracket_counter = left_bracket_counter+1
+                    elif(string[a-counter-2]=='('):
+                        left_bracket_counter = left_bracket_counter-1
+                    counter = counter + 1
+                
+                if (string[a-1] == ')'):
+                    counter = counter + 1
+              
+                index_left_bracket = string[a-counter]
+                #print index_left_bracket
+                expression = string[a-counter:a-1+1]
+                #print "power : " , power 
+                expressionsum=''
+                for p in range(0,int(power)-1):
+                    expressionsum = expressionsum+"*"+expression
+                string = string[:a] + expressionsum+string[a+3:] 
+                #print "expression," ,expressionsum
+                #string.replace("**",expressionsum)
+            else:
+                startExist= False;
+
+            
+
+        
+        #print "if ((x == " +str(sum)+")){"+string+"} "3
+        print string
+        #print "printf(\"" +"c_inv" +str(i+1) +str(j+1)+" : %f \\n \",c_inv"+str(i+1) +str(j+1)+");" 
+
+
+
+#Print B
+for i in range(0,3):
+    for j in range(0,3):
+        #string = "E_vector[" + "x" + "]" + "=" + str(result[i, j]) + ";"
+        string = "float b" +str(i) +str(j)+"=" + str(B[i, j]) + ";"
         # sum = sum+1
         'print string'
         'rint "if ((x == " +str(i)+")&&(y=="+str(j)+")){"+string+"} "'
@@ -188,7 +348,8 @@ for i in range(0,3):
                         left_bracket_counter = left_bracket_counter-1
                     counter = counter + 1
              
-                counter=counter+1
+                if (string[a-1] == ')'):
+                    counter = counter + 1
                 index_left_bracket = string[a-counter]
                 #print index_left_bracket
                 expression = string[a-counter:a-1+1]
@@ -208,6 +369,128 @@ for i in range(0,3):
         #print "if ((x == " +str(sum)+")){"+string+"} "3
         print string
 
+
+A = simplify(A)
+#Print C
+for i in range(0,3):
+    for j in range(0,3):
+        #string = "E_vector[" + "x" + "]" + "=" + str(result[i, j]) + ";"
+        string = "float a" +str(i+1) +str(j+1)+"=" + str(A[i, j]) + ";"
+        # sum = sum+1
+        'print string'
+        'rint "if ((x == " +str(i)+")&&(y=="+str(j)+")){"+string+"} "'
+        startExist =True;
+        #print string 
+        while startExist == True:
+            #iteration= iteration+1
+            a = string.find("**")
+
+            if a != -1:
+                #print string[a:a+3]
+                power = string[a+2]
+                index_right_bracket = string[a-1];
+                #print index_right_bracket
+                counter = 0;
+                #find left bracket index
+                left_bracket_counter =1;
+
+                while left_bracket_counter != 0:
+                    if (string[a-counter-2] == ')'):
+                        left_bracket_counter = left_bracket_counter+1
+                    elif(string[a-counter-2]=='('):
+                        left_bracket_counter = left_bracket_counter-1
+                    counter = counter + 1
+             
+                if (string[a-1] == ')'):
+                    counter = counter + 1
+                index_left_bracket = string[a-counter]
+                #print index_left_bracket
+                expression = string[a-counter:a-1+1]
+                #print "power : " , power 
+                expressionsum=''
+                for p in range(0,int(power)-1):
+                    expressionsum = expressionsum+"*"+expression
+                string = string[:a] + expressionsum+string[a+3:] 
+                #print "expression," ,expressionsum
+                #string.replace("**",expressionsum)
+            else:
+                startExist= False;
+
+            
+
+        
+        #print "if ((x == " +str(sum)+")){"+string+"} "3
+        print string
+
+
+
+#Print R
+for i in range(0,3):
+    for j in range(0,3):
+        #string = "E_vector[" + "x" + "]" + "=" + str(result[i, j]) + ";"
+        string = "R[" +str(i) +"][" +str(j)+"]"+"=" + str(R[i, j]) + ";"
+        # sum = sum+1
+        'print string'
+        'rint "if ((x == " +str(i)+")&&(y=="+str(j)+")){"+string+"} "'
+        
+        #remove any abs statements
+        absexist = True;
+        while absexist == True:
+            a = string.find("Abs")
+            if a!= -1:
+                string = string[:a]+string[a+3:]
+                #print string
+                continue
+            else:
+                absexist = False;
+
+        startExist =True;
+        #print string 
+        #Get rid of abs
+        #print string
+        while startExist == True:
+            #iteration= iteration+1
+            a = string.find("**")
+
+            if a != -1:
+                #print string[a:a+3]
+                power = string[a+2]
+                index_right_bracket = string[a-1];
+                #print index_right_bracket
+                counter = 0;
+                #find left bracket index
+                left_bracket_counter =1;
+
+                while left_bracket_counter != 0:
+                    if (string[a-counter-2] == ')'):
+                        left_bracket_counter = left_bracket_counter+1
+                    elif(string[a-counter-2]=='('):
+                        left_bracket_counter = left_bracket_counter-1
+                    counter = counter + 1
+             
+                if (string[a-1] == ')'):
+                    counter = counter + 1
+                index_left_bracket = string[a-counter]
+                #print index_left_bracket
+                expression = string[a-counter:a-1+1]
+                #print "power : " , power 
+                expressionsum=''
+                for p in range(0,int(power)-1):
+                    expressionsum = expressionsum+"*"+expression
+                string = string[:a] + expressionsum+string[a+3:] 
+                #print "expression," ,expressionsum
+                #string.replace("**",expressionsum)
+            else:
+                startExist= False;
+
+            
+
+        
+        #print "if ((x == " +str(sum)+")){"+string+"} "3
+        print string
+
+print R
+print R_large
 
 
 

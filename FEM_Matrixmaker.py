@@ -1,6 +1,6 @@
 from sympy import *
 import os 
-import FEM_Matrixmaker_corotational as R_GEN
+#import FEM_Matrixmaker_corotational as R_GEN
 B = zeros(6,12)
 
 K = zeros(12,12)
@@ -32,7 +32,6 @@ B[2,5] = B[4,4] = B[5,3] = J_bar32;
 
 B[0,6] = B[3,7] = B[5,8] = J_bar13;
 B[1,7] = B[3,6] = B[4,8] = J_bar23;
-
 B[2,8] = B[4,7] = B[5,6] = J_bar33;
     
 B[0,9] = B[3,10] = B[5,11] = J_star1;
@@ -43,15 +42,25 @@ B[2,11] = B[4,10] = B[5,9] = J_star3;
 D[0,0] = D[1,1] = D[2,2] = (1.0 - nu);
 D[0,1] = D[1,0] = D[0,2] = D[2,0] = D[1,2] = D[2,1] = nu;
 #D[3,3] = D[4,4] = D[5,5] = (1.0 - 2*nu) / 2.0;
-D[3,3] = D[4,4] = D[5,5] = (1.0 - 2* nu) 
-D=(E/(1-nu-2*nu*nu))*D*det_J / 6.0
+D[3,3] = D[4,4] = D[5,5] = (1.0 - 2* nu) /2.0;
+D=(E/(1-nu-2*nu*nu))*D
 
+
+B_sym = MatrixSymbol('B',6,12)
+B_sym_matrix = Matrix(B_sym);
+B_sym_symmetric = B_sym_matrix.T
+Kmatrix_sym = B_sym_matrix.T*(D *B_sym_matrix) *det_J/6.0
+
+
+
+
+print Kmatrix_sym
 
 
 rho = symbols('rho')
-result = B.T*D*B
+result = B.T*D*B*det_J / 6.0
 result_M = rho*B.T*B*det_J / 6.0
-
+result_M = (rho*det_J/24) *eye(12)
 b= zeros(12,1)
 b1x = symbols('b1x')
 b1y = symbols('b1y')
@@ -62,6 +71,7 @@ b2z = symbols('b2z')
 b3x = symbols('b3x')
 b3y = symbols('b3y')
 b3z = symbols('b3z')
+
 '''
 b[0,0] = b1
 b[1,0] = b2
@@ -75,12 +85,82 @@ print K
 print result
 '''
 print "start of local K"
-result = R_GEN.R_large*result*R_GEN.R_large.T
+#R_transpose = R_GEN.R_large
+#RK = R_GEN.R_large*result*R_GEN.k_vector
+
+
+
+#print B matrix
+
+for i in range(0,6):
+    for j in range(0,12):
+        #string = "E_vector[" + "x" + "]" + "=" + str(result[i, j]) + ";"
+        #result[i, j] = simplify(result[i, j])
+        string = "B" + "["+str(i) + "][" + str(j)+"]=" + str(B[i, j]) + ";"
+        #sum = sum+1
+        'print string'
+        'rint "if ((x == " +str(i)+")&&(y=="+str(j)+")){"+string+"} "'
+        string = string.replace("nu**2","nu*nu")
+        string = string.replace("J_star1**2","J_star1*J_star1")
+        string = string.replace("J_star2**2","J_star2*J_star2")
+        string = string.replace("J_star3**2","J_star3*J_star3")
+
+        string = string.replace("J_bar13**2","J_bar13*J_bar13")
+        string = string.replace("J_bar23**2","J_bar23*J_bar23")
+        string = string.replace("J_bar33**2","J_bar33*J_bar33")
+
+        string = string.replace("J_bar12**2","J_bar12*J_bar12")
+        string = string.replace("J_bar22**2","J_bar22*J_bar22")
+        string = string.replace("J_bar32**2","J_bar32*J_bar32")
+
+        string = string.replace("J_bar31**2","J_bar31*J_bar31")
+        
+  
+        string = string.replace("J_bar11**2","J_bar11*J_bar11")
+        string = string.replace("J_bar21**2","J_bar21*J_bar21")
+        #print "if ((x == " +str(sum)+")){"+string+"} "3
+        print string
+#result = R_GEN.R_large*result*R_GEN.R_large.T
+
+
+#print BT matrix
+BT = B.T
+for i in range(0,12):
+    for j in range(0,6):
+        #string = "E_vector[" + "x" + "]" + "=" + str(result[i, j]) + ";"
+        #result[i, j] = simplify(result[i, j])
+        string = "BT" + "["+str(i) + "][" + str(j)+"]=" + str(B_sym_symmetric[i, j]) + ";"
+        #sum = sum+1
+        'print string'
+        'rint "if ((x == " +str(i)+")&&(y=="+str(j)+")){"+string+"} "'
+        string = string.replace("nu**2","nu*nu")
+        string = string.replace("J_star1**2","J_star1*J_star1")
+        string = string.replace("J_star2**2","J_star2*J_star2")
+        string = string.replace("J_star3**2","J_star3*J_star3")
+
+        string = string.replace("J_bar13**2","J_bar13*J_bar13")
+        string = string.replace("J_bar23**2","J_bar23*J_bar23")
+        string = string.replace("J_bar33**2","J_bar33*J_bar33")
+
+        string = string.replace("J_bar12**2","J_bar12*J_bar12")
+        string = string.replace("J_bar22**2","J_bar22*J_bar22")
+        string = string.replace("J_bar32**2","J_bar32*J_bar32")
+
+        string = string.replace("J_bar31**2","J_bar31*J_bar31")
+        
+  
+        string = string.replace("J_bar11**2","J_bar11*J_bar11")
+        string = string.replace("J_bar21**2","J_bar21*J_bar21")
+        #print "if ((x == " +str(sum)+")){"+string+"} "3
+        print string
+
+
 sum = 0
 for i in range(0,12):
     for j in range(0,12):
         #string = "E_vector[" + "x" + "]" + "=" + str(result[i, j]) + ";"
-        string = "in_element->local_K" + "["+str(sum) + "]" + "=" + str(result[i, j]) + ";"
+        #result[i, j] = simplify(result[i, j])
+        string = "in_element->local_K" + "["+str(sum) + "]" + "=" + str(Kmatrix_sym[i, j]) + ";"
         sum = sum+1
         'print string'
         'rint "if ((x == " +str(i)+")&&(y=="+str(j)+")){"+string+"} "'
@@ -98,8 +178,8 @@ for i in range(0,12):
         string = string.replace("J_bar32**2","J_bar32*J_bar32")
 
         string = string.replace("J_bar31**2","J_bar31*J_bar31")
-        string = string.replace("J_bar32**2","J_bar32*J_bar32")
-        string = string.replace("J_bar33**2","J_bar33*J_bar33")
+        
+  
         string = string.replace("J_bar11**2","J_bar11*J_bar11")
         string = string.replace("J_bar21**2","J_bar21*J_bar21")
         #print "if ((x == " +str(sum)+")){"+string+"} "3
@@ -121,6 +201,7 @@ for i in range(0,12):
         string = string.replace("J_bar13**2","J_bar13*J_bar13")
         string = string.replace("J_bar23**2","J_bar23*J_bar23")
         string = string.replace("J_bar33**2","J_bar33*J_bar33")
+        string = string.replace("24","24.0")
 
         string = string.replace("J_bar12**2","J_bar12*J_bar12")
         string = string.replace("J_bar22**2","J_bar22*J_bar22")
@@ -135,3 +216,36 @@ for i in range(0,12):
 
 
         print string
+
+
+
+#FIND RK MATRIX
+sum = 0
+for i in range(0,12):
+
+    #string = "E_vector[" + "x" + "]" + "=" + str(result[i, j]) + ";"
+    #result[i, j] = simplify(result[i, j])
+    string = "in_element->local_RK" + "["+str(sum) + "]" + "=" + str(simplify(RK[i])) + ";"
+    sum = sum+1
+    'print string'
+    'rint "if ((x == " +str(i)+")&&(y=="+str(j)+")){"+string+"} "'
+    string = string.replace("nu**2","nu*nu")
+    string = string.replace("J_star1**2","J_star1*J_star1")
+    string = string.replace("J_star2**2","J_star2*J_star2")
+    string = string.replace("J_star3**2","J_star3*J_star3")
+
+    string = string.replace("J_bar13**2","J_bar13*J_bar13")
+    string = string.replace("J_bar23**2","J_bar23*J_bar23")
+    string = string.replace("J_bar33**2","J_bar33*J_bar33")
+
+    string = string.replace("J_bar12**2","J_bar12*J_bar12")
+    string = string.replace("J_bar22**2","J_bar22*J_bar22")
+    string = string.replace("J_bar32**2","J_bar32*J_bar32")
+
+    string = string.replace("J_bar31**2","J_bar31*J_bar31")
+    string = string.replace("J_bar32**2","J_bar32*J_bar32")
+    string = string.replace("J_bar33**2","J_bar33*J_bar33")
+    string = string.replace("J_bar11**2","J_bar11*J_bar11")
+    string = string.replace("J_bar21**2","J_bar21*J_bar21")
+    #print "if ((x == " +str(sum)+")){"+string+"} "3
+    print string
